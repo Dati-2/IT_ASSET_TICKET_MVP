@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IT Asset & Ticket Management</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">IT</div>
+        <div><strong>IT Desk</strong><small>Asset & Ticket Manager</small></div>
+      </div>
+      <div class="nav-label">WORKSPACE</div>
+      <nav class="main-nav">
+        <button class="nav-item active" data-page="dashboard"><span class="nav-icon">▦</span> Dashboard</button>
+        <button class="nav-item" data-page="assets"><span class="nav-icon">▣</span> IT Assets</button>
+        <button class="nav-item" data-page="tickets"><span class="nav-icon">▤</span> Tickets</button>
+        <button class="nav-item" data-page="users"><span class="nav-icon">♙</span> Users</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="help-card">
+          <div class="help-icon">?</div>
+          <strong>Need help?</strong>
+          <p>Manage your organisation's IT resources in one place.</p>
+        </div>
+        <div class="profile-mini">
+          <div class="avatar">AD</div>
+          <div><strong>Admin User</strong><small>System Administrator</small></div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Toggle navigation">☰</button>
+        <div class="breadcrumb">Workspace <span>/</span> <strong id="pageCrumb">Dashboard</strong></div>
+        <div class="topbar-right"><span class="status-dot"></span><span class="online-label">System demo</span><div class="avatar small">AD</div></div>
+      </header>
+
+      <section class="page-content">
+        <section class="page-view active" id="page-dashboard">
+          <div class="page-heading">
+            <div><p class="eyebrow">OVERVIEW</p><h1>Dashboard</h1><p class="subheading">Here's what's happening with your IT operations.</p></div>
+            <div class="date-chip" id="todayDate"></div>
+          </div>
+          <div class="stats-grid">
+            <article class="stat-card"><div class="stat-top"><span>Total assets</span><span class="stat-symbol blue">▣</span></div><strong id="statAssets">0</strong><small>Registered equipment</small></article>
+            <article class="stat-card"><div class="stat-top"><span>Available assets</span><span class="stat-symbol green">✓</span></div><strong id="statAvailable">0</strong><small>Ready for assignment</small></article>
+            <article class="stat-card"><div class="stat-top"><span>Assigned assets</span><span class="stat-symbol purple">♙</span></div><strong id="statAssigned">0</strong><small>Currently in use</small></article>
+            <article class="stat-card"><div class="stat-top"><span>Open tickets</span><span class="stat-symbol orange">◷</span></div><strong id="statOpen">0</strong><small>Awaiting resolution</small></article>
+          </div>
+          <div class="dashboard-grid">
+            <article class="panel">
+              <div class="panel-heading"><div><h2>Recent tickets</h2><p>Latest reported IT issues</p></div><button class="text-button" data-goto="tickets">View all →</button></div>
+              <div class="table-wrap"><table><thead><tr><th>Ticket</th><th>Issue</th><th>Priority</th><th>Status</th></tr></thead><tbody id="recentTickets"></tbody></table></div>
+            </article>
+            <article class="panel asset-summary">
+              <div class="panel-heading"><div><h2>Asset overview</h2><p>Current equipment status</p></div></div>
+              <div class="summary-row"><span class="summary-dot green-dot"></span><span>Available</span><strong id="summaryAvailable">0</strong></div>
+              <div class="summary-row"><span class="summary-dot blue-dot"></span><span>Assigned</span><strong id="summaryAssigned">0</strong></div>
+              <div class="summary-row"><span class="summary-dot red-dot"></span><span>Under maintenance</span><strong id="summaryMaintenance">0</strong></div>
+              <div class="summary-track"><div id="assetBarAvailable"></div><div id="assetBarAssigned"></div><div id="assetBarMaintenance"></div></div>
+              <p class="summary-foot" id="assetSummaryFoot">No assets registered yet.</p>
+            </article>
+          </div>
+          <article class="panel quick-actions">
+            <div class="panel-heading"><div><h2>Quick actions</h2><p>Common tasks to keep things moving</p></div></div>
+            <div class="quick-action-grid">
+              <button class="quick-action" data-action="add-asset"><span class="quick-icon blue-bg">＋</span><span><strong>Add new asset</strong><small>Register equipment</small></span><b>→</b></button>
+              <button class="quick-action" data-action="add-ticket"><span class="quick-icon orange-bg">＋</span><span><strong>Create ticket</strong><small>Report an IT issue</small></span><b>→</b></button>
+              <button class="quick-action" data-action="add-user"><span class="quick-icon purple-bg">＋</span><span><strong>Add user</strong><small>Register an employee</small></span><b>→</b></button>
+            </div>
+          </article>
+        </section>
+
+        <section class="page-view" id="page-assets">
+          <div class="page-heading">
+            <div><p class="eyebrow">INVENTORY</p><h1>IT Assets</h1><p class="subheading">Register, assign and monitor organisation equipment.</p></div>
+            <button class="primary-button" data-action="add-asset">＋ Add asset</button>
+          </div>
+          <div class="toolbar"><div class="search-box"><span>⌕</span><input id="assetSearch" placeholder="Search by asset name, tag or serial number..."></div><select id="assetFilter"><option value="">All statuses</option><option>Available</option><option>Assigned</option><option>Maintenance</option></select></div>
+          <article class="panel"><div class="table-wrap"><table><thead><tr><th>Asset</th><th>Asset tag</th><th>Category</th><th>Assigned to</th><th>Status</th><th>Actions</th></tr></thead><tbody id="assetsTable"></tbody></table></div><div class="empty-state hidden" id="assetsEmpty">No assets found. Add your first IT asset.</div></article>
+        </section>
+
+        <section class="page-view" id="page-tickets">
+          <div class="page-heading">
+            <div><p class="eyebrow">IT SUPPORT</p><h1>Tickets</h1><p class="subheading">Track reported issues from submission to resolution.</p></div>
+            <button class="primary-button" data-action="add-ticket">＋ Create ticket</button>
+          </div>
+          <div class="toolbar"><div class="search-box"><span>⌕</span><input id="ticketSearch" placeholder="Search tickets by ID, issue or requester..."></div><select id="ticketFilter"><option value="">All statuses</option><option>Open</option><option>In Progress</option><option>Resolved</option></select></div>
+          <article class="panel"><div class="table-wrap"><table><thead><tr><th>Ticket ID</th><th>Issue</th><th>Reported by</th><th>Priority</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead><tbody id="ticketsTable"></tbody></table></div><div class="empty-state hidden" id="ticketsEmpty">No tickets found. Create a ticket to get started.</div></article>
+        </section>
+
+        <section class="page-view" id="page-users">
+          <div class="page-heading">
+            <div><p class="eyebrow">PEOPLE</p><h1>Users</h1><p class="subheading">Manage employees and IT support personnel.</p></div>
+            <button class="primary-button" data-action="add-user">＋ Add user</button>
+          </div>
+          <div class="toolbar"><div class="search-box"><span>⌕</span><input id="userSearch" placeholder="Search by name, email or department..."></div></div>
+          <article class="panel"><div class="table-wrap"><table><thead><tr><th>User</th><th>Email</th><th>Department</th><th>Role</th><th>Assigned assets</th><th>Actions</th></tr></thead><tbody id="usersTable"></tbody></table></div><div class="empty-state hidden" id="usersEmpty">No users found. Add your first employee.</div></article>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="modalBackdrop">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header"><div><p class="eyebrow" id="modalEyebrow">FORM</p><h2 id="modalTitle">Add record</h2></div><button class="icon-button" id="closeModal" aria-label="Close">×</button></div>
+      <form id="recordForm"><div id="formFields" class="form-grid"></div><div class="form-actions"><button type="button" class="secondary-button" id="cancelModal">Cancel</button><button type="submit" class="primary-button" id="saveRecord">Save record</button></div></form>
+    </section>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script src="js/app.js"></script>
+</body>
+</html>
